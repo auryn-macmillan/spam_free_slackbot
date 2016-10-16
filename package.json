@@ -1,7 +1,7 @@
 {
   "name": "hubot-spam-free-slackbot",
   "description": "Provides canned responses for sets of trigger words.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Auryn Macmillan <aurynmacmillan@gmail.com>",
   "license": "MIT",
   "keywords": "hubot, hubot-scripts, slack, slackbot, keyword, response",
