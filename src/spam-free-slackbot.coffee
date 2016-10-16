@@ -166,7 +166,7 @@ module.exports = (robot) ->
       # check if robot.brain.data.responses are allowed in this channel,
       # and check the current time is more than 5 minutes from the last time this message was posted,
       # and check that there has been at least 20 lines posted since the last time this message was posted.
-      if robot.brain.data.channels[res.message.room] and robot.brain.data.channels[res.message.room].timeNow - robot.brain.data.responses[comm][res.message.room].lastTime > TIMELIMIT and robot.brain.data.channels[res.message.room].lineCount - robot.brain.data.responses[comm][res.message.room].lastLine > LINECOUNT
+      if robot.brain.data.channels[res.message.room] and (SPAM or (robot.brain.data.channels[res.message.room].timeNow - robot.brain.data.responses[comm][res.message.room].lastTime > TIMELIMIT and robot.brain.data.channels[res.message.room].lineCount - robot.brain.data.responses[comm][res.message.room].lastLine > LINECOUNT))
         for trig of robot.brain.data.responses[comm].triggers
           if res.match[1].includes(robot.brain.data.responses[comm].triggers[trig])
             res.send robot.brain.data.responses[comm].response
