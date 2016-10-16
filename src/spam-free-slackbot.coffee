@@ -47,7 +47,7 @@ TIMELIMIT = 5 * 60 * 1000
 module.exports = (robot) ->
 
   robot.brain.data.ADMINS = {
-    #Shell: 'Shell', # comment out this line before you ship this!
+    Shell: 'Shell', # comment out this line before you ship this!
     auryn_macmillan: 'auryn_macmillan'
   }
 
