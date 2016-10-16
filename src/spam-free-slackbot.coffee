@@ -44,6 +44,8 @@ LINECOUNT = 20
 # time (in miliseconds) between repeat responses
 TIMELIMIT = 5 * 60 * 1000
 
+SPAM = false
+
 module.exports = (robot) ->
 
   robot.brain.data.ADMINS = {
@@ -58,6 +60,17 @@ module.exports = (robot) ->
   # list of trigger response pairs
   robot.brain.data.responses = {}
   #robot.brain.set('responsez', robot.brain.data.responses)
+
+  # set spam on or off
+  robot.respond /spam (.*)/i, (res) ->
+    if robot.brain.data.ADMINS[res.message.user.name]
+      switch res.match[1]
+        when "on"
+          SPAM = true
+          res.send "Aaaaww yis"
+        when "off"
+          SPAM = false
+          res.send ":disappointed:"
 
   # admin [add/remove/list] [username]
   robot.respond /admin (.*) (.*)/i, (res) ->
