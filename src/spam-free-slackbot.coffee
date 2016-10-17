@@ -79,8 +79,10 @@ module.exports = (robot) ->
       switch res.match[1]
         # list usernames in admin list (not working for some reason)
         when "list"
+          list = []
           for x of robot.brain.data.ADMINS
-            res.send robot.brain.data.ADMINS[x]
+            list.push(robot.brain.data.ADMINS[x])
+          res.send "The following users have access to my admin commands:\n" + list
         # add username to admin list
         when "add"
           robot.brain.data.ADMINS[res.match[2]] = res.match[2]
@@ -130,9 +132,9 @@ module.exports = (robot) ->
   robot.respond /triggers new (.*); (.*); (.*)/i, (res) ->
     if robot.brain.data.channels[res.message.room] and robot.brain.data.ADMINS[res.message.user.name]
       robot.brain.data.responses[res.match[1]] = new Response res.match[1]
-      robot.brain.data.responses[res.match[1]].triggers = res.match[2]
+      robot.brain.data.responses[res.match[1]].triggers = res.match[2].toLowerCase().split ","
       robot.brain.data.responses[res.match[1]].response = res.match[3]
-      robot.brain.data.responses[res.match[1]].triggers = robot.brain.data.responses[res.match[1]].triggers.split ","
+      #robot.brain.data.responses[res.match[1]].triggers = robot.brain.data.responses[res.match[1]].triggers
       res.send "\nFor these trigger words:\n" + robot.brain.data.responses[res.match[1]].triggers + "\nThe following response has been added:"
 
   # change response for a set of triggers
@@ -168,7 +170,7 @@ module.exports = (robot) ->
       # and check that there has been at least 20 lines posted since the last time this message was posted.
       if robot.brain.data.channels[res.message.room] and (SPAM or (robot.brain.data.channels[res.message.room].timeNow - robot.brain.data.responses[comm][res.message.room].lastTime > TIMELIMIT and robot.brain.data.channels[res.message.room].lineCount - robot.brain.data.responses[comm][res.message.room].lastLine > LINECOUNT))
         for trig of robot.brain.data.responses[comm].triggers
-          if res.match[1].includes(robot.brain.data.responses[comm].triggers[trig])
+          if res.match[1].toLowerCase().includes(robot.brain.data.responses[comm].triggers[trig])
             res.send robot.brain.data.responses[comm].response
             robot.brain.data.responses[comm][res.message.room].lastTime = robot.brain.data.channels[res.message.room].timeNow
             robot.brain.data.responses[comm][res.message.room].lastLine = robot.brain.data.channels[res.message.room].lineCount
