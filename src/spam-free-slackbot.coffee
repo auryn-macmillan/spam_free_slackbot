@@ -161,12 +161,8 @@ module.exports = (robot) ->
               commArray = newString.split " -> "
               # split triggers string into array
               robot.brain.data.responses[trigName].triggers = commArray[0].toLowerCase().split ","
+              # save response
               robot.brain.data.responses[trigName].response = commArray[1]
-              ##res.send "_" + robot.brain.data.responses[trigName].response.charAt(0) + " "
-              ##res.send robot.brain.data.responses[trigName].response.substr(1)
-              #while robot.brain.data.responses[trigName].response.charAt(0) == ' '
-                #res.send "inside while"
-                #robot.brain.data.responses[trigName].response = robot.brain.data.responses[trigName].response.substr(1);
               res.send "*For these trigger words:*\n" + robot.brain.data.responses[trigName].triggers + "\n*The following response has been added:*"#\n" + robot.brain.data.responses[trigName].response = commArray[1]
             # remove trigger-response set.
             when "remove"
@@ -212,7 +208,6 @@ module.exports = (robot) ->
       # get current time, -0 becasue otherwise 'new Date()' returns a string.
       robot.brain.data.channels[res.message.room].timeNow = new Date() - 0
     for comm of robot.brain.data.responses
-      #res.send robot.brain.data.responses[comm][res.message.room]
       if !robot.brain.data.responses[comm][res.message.room]
         robot.brain.data.responses[comm][res.message.room] = new Channel res.message.room
       # check if robot.brain.data.responses are allowed in this channel,
